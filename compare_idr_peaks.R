@@ -52,7 +52,7 @@ if(length(args) < 1) {
 
 
 # Parse arguments.
-args.tbl <- parseArgs(args, c('-I', '-O'))
+args.tbl <- parseArgs(args, c('-D', '-F'))
 if(is.null(args.tbl)){
     cmd.help()
     stop('Error in parsing command line arguments. Stop.\n')
@@ -131,8 +131,6 @@ compare_IDR_peaks = function(factor, peakDir) {
 	peaks9pc = importPeaks( paste(peakDir,  "/", factor, ".MACS2_IDR-0.09_peaks.bed", sep="") )
 	peaks10pc = importPeaks( paste(peakDir,  "/", factor, ".MACS2_IDR-0.1_peaks.bed", sep="") )
 
-	pdf( file=paste0(peakDir, "/", factor, "_IDR_peakCalling_comparison.pdf", sep="") )
-
 	col=c( mcri('red',1), mcri('red',0.9), mcri('red',0.8), mcri('red',0.7), mcri('red',0.6), mcri('red',0.5), mcri('red',0.4), mcri('red',0.3), mcri('red',0.2), mcri('red',0.1) )
 	names=c( '1', '2', '3', '4', '5', '6', '7', '8', '9', '10' )
 	xlab='Irreproducible Discovery Rate (%)'
@@ -151,7 +149,11 @@ compare_IDR_peaks = function(factor, peakDir) {
 	text(bp, 0, c( length(peaks1pc), length(peaks2pc), length(peaks3pc), length(peaks4pc), length(peaks5pc),
 	             length(peaks6pc), length(peaks7pc), length(peaks8pc), length(peaks9pc), length(peaks10pc) ),cex=1, pos=3, offset=1.5,  srt=90)
 
-	dev.off()
 }
 
+pdf( file=paste0(peakDir, "/", factor, "_IDR_peakCalling_comparison.pdf", sep="") )
+layout(matrix(c(1,2), nrow=2))
+
 compare_IDR_peaks(factor, peakDir)
+
+dev.off()
