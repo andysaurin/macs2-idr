@@ -179,9 +179,11 @@ fi
 
 if  [[ $PEAKTYPE == 'narrow' ]]; then
 	MACSPEAKTYPE=''
+	CALLSUMMITS='--call-summits'
 fi
 if  [[ $PEAKTYPE == 'broad' ]]; then
 	MACSPEAKTYPE='--broad'
+	CALLSUMMITS=''
 fi
 
 
@@ -233,7 +235,7 @@ echo "Calling peaks on ChIP 1"
 
 macs2 callpeak -t $CHIP1 -c $INPUT \
   $MACS_OPTIONS \
-  --outdir=$MACS_OUTPUT --call-summits $MACSPEAKTYPE -p 0.1 -g $GENOME \
+  --outdir=$MACS_OUTPUT $CALLSUMMITS $MACSPEAKTYPE -p 0.1 -g $GENOME \
   -n ${FACTOR}_Rep1_p0.1 > $MACS_LOG_REP1 2>&1 &
 
 pid=$!
@@ -261,7 +263,7 @@ echo "Calling peaks on ChIP 2"
 
 macs2 callpeak -t $CHIP2 -c $INPUT \
   $MACS_OPTIONS \
-  --outdir=$MACS_OUTPUT --call-summits $MACSPEAKTYPE -p 0.1 -g $GENOME \
+  --outdir=$MACS_OUTPUT $CALLSUMMITS $MACSPEAKTYPE -p 0.1 -g $GENOME \
   -n ${FACTOR}_Rep2_p0.1 > $MACS_LOG_REP2 2>&1 &
 
 pid=$!
@@ -298,7 +300,7 @@ if ! [[ -f ${OUTDIR}/${FACTOR}/macs_output/${FACTOR}_Rep1_p0.1_peaks.${FILETYPE}
 	exit 1
 fi
 if ! [[ -f ${OUTDIR}/${FACTOR}/macs_output/${FACTOR}_Rep2_p0.1_peaks.${FILETYPE} ]]; then
-	echo "MACS2 failed on Rep1"
+	echo "MACS2 failed on Rep2"
 	exit 1
 fi
 
